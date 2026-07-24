@@ -6,10 +6,10 @@ const test = require("node:test");
 const assert = require("node:assert");
 const scoring = require("../server/utils/scoring");
 
-// TESZT 1: rossz valaszra nulla pont jar
-test("rossz valasz eseten 0 pont", function () {
+// TESZT 1: rossz valasz eseten buntetes jar (a kerdes pontjanak fele, negativ elojellel)
+test("rossz valasz eseten buntetes jar", function () {
   let pont = scoring.pontEgyKerdesre(false, 20, false, 0);
-  assert.strictEqual(pont, 0);
+  assert.strictEqual(pont, -10);
 });
 
 // TESZT 2: jo valaszra a kerdes pontja jar ha nem idore megy
@@ -32,7 +32,7 @@ test("az ido bonusz maximum 10", function () {
   assert.strictEqual(pont, 30);
 });
 
-// TESZT 5: egy egesz kviz osszpontja jol adodik ossze
+// TESZT 5: egy egesz kviz osszpontja jol adodik ossze (buntetessel egyutt)
 test("kviz osszpont helyesen adodik ossze", function () {
   let valaszok = [
     { helyes: true, pont: 10, idoreMegy: false, ido: 0 },
@@ -40,7 +40,7 @@ test("kviz osszpont helyesen adodik ossze", function () {
     { helyes: false, pont: 30, idoreMegy: false, ido: 0 }
   ];
   let ossz = scoring.kvizOsszpont(valaszok);
-  assert.strictEqual(ossz, 30); // 10 + 20 + 0
+  assert.strictEqual(ossz, 15); // 10 + 20 - 15 (a 30-as kerdes fele levonva)
 });
 
 // TESZT 6: az xp az elert pont fele, plusz 50 ha nyert

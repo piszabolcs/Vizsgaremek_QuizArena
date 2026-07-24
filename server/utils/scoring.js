@@ -3,17 +3,14 @@
 
 // ez kiszamolja hany pontot er egy valasz
 // ha jo a valasz akkor a kerdes pontjat kapja, plusz ido bonusz ha idore megy
+// ha rossz, akkor a kerdes pontjanak fele levonasra kerul (buntetes)
 function pontEgyKerdesre(helyesE, kerdesPont, idoreMegy, hatralevoMasodperc) {
-  // ha rossz a valasz akkor nulla pont
   if (helyesE === false) {
-    return 0;
+    return -(kerdesPont / 2);
   }
 
-  // ha jo, akkor legalabb annyi pont amennyit a kerdes er
   let pont = kerdesPont;
 
-  // ha idore ment a jatek akkor adunk ido bonuszt
-  // minden hatralevo masodperc 1 pontot er, de maximum 10-et
   if (idoreMegy === true) {
     let bonusz = hatralevoMasodperc;
     if (bonusz > 10) {
