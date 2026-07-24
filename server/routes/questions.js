@@ -35,6 +35,7 @@ router.get("/", function (req, res) {
 });
 
 // EGY KERDES LEKERESE A VALASZOKKAL EGYUTT
+// itt sem kuldjuk el az is_correct mezot ugyanazert az okert, mint a kvizeknel
 router.get("/:id", function (req, res) {
   const id = req.params.id;
 
@@ -43,8 +44,7 @@ router.get("/:id", function (req, res) {
     return res.status(404).json({ hiba: "nincs ilyen kerdes" });
   }
 
-  // lekerjuk a valaszokat is
-  const valaszok = db.prepare("SELECT id, answer_text, is_correct FROM answers WHERE question_id = ?").all(id);
+  const valaszok = db.prepare("SELECT id, answer_text FROM answers WHERE question_id = ?").all(id);
   kerdes.valaszok = valaszok;
 
   res.json(kerdes);

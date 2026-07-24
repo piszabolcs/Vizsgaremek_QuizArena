@@ -7,6 +7,16 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
+// segedfuggveny: helyben megkeveri egy tomb elemeit (Fisher-Yates)
+function tombKeveres(tomb) {
+  for (let i = tomb.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let csere = tomb[i];
+    tomb[i] = tomb[j];
+    tomb[j] = csere;
+  }
+}
+
 // KVIZEK LISTAZASA
 // alapbol a nyilvanos kvizeket adja vissza
 router.get("/", function (req, res) {
@@ -20,6 +30,8 @@ router.get("/", function (req, res) {
 
 // EGY KVIZ KERDESEI SORRENDBEN, A VALASZOKKAL EGYUTT
 // ezt hasznalja a jatek kepernyo amikor kitolteni kezdunk
+// fontos: az is_correct mezot itt szandekosan NEM kuldjuk el, hogy ne lehessen
+// a fejlesztoi konzolbol kiolvasni a helyes valaszt meg mielott valaszolnank
 router.get("/:id", function (req, res) {
   const id = req.params.id;
 
@@ -28,18 +40,22 @@ router.get("/:id", function (req, res) {
     return res.status(404).json({ hiba: "nincs ilyen kviz" });
   }
 
-  // lekerjuk a kviz kerdeseit sorrendben
   const kerdesek = db.prepare(
     "SELECT q.id, q.question_text, q.difficulty, q.points, qq.position " +
     "FROM quiz_questions qq JOIN questions q ON q.id = qq.question_id " +
     "WHERE qq.quiz_id = ? ORDER BY qq.position"
   ).all(id);
 
-  // minden kerdeshez hozzarakjuk a valaszokat is
   for (let i = 0; i < kerdesek.length; i++) {
     let k = kerdesek[i];
-    let valaszok = db.prepare("SELECT id, answer_text, is_correct FROM answers WHERE question_id = ?").all(k.id);
+    let valaszok = db.prepare("SELECT id, answer_text FROM answers WHERE question_id = ?").all(k.id);
+    tombKeveres(valaszok);
     k.valaszok = valaszok;
+  }
+
+  // milliomos modnal a kerdesek sorrendje maga a nehezedes, azt nem keverjuk
+  if (kviz.mode !== "millionaire") {
+    tombKeveres(kerdesek);
   }
 
   kviz.kerdesek = kerdesek;
