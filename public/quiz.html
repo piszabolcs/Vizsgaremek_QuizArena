@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizArena - Kviz</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="menu">
+    <a href="index.html">Fooldal</a>
+    <a href="leaderboard.html">Ranglista</a>
+    <a href="profile.html">Profil</a>
+    <a href="login.html">Belepes</a>
+  </div>
+
+  <div class="tartalom">
+    <h1 id="kvizCim">Kviz</h1>
+    <p id="kvizLeiras"></p>
+
+    <!-- ide toltjuk be a kerdeseket a javascriptbol -->
+    <div id="kerdesekHely">toltes...</div>
+
+    <button id="beadGomb" onclick="beadKviz()" style="display:none;">Beadom a valaszaimat</button>
+
+    <!-- ide jon az eredmeny a beadas utan -->
+    <div id="eredmenyHely"></div>
+  </div>
+
+  <script src="js/quiz.js"></script>
+</body>
+</html>

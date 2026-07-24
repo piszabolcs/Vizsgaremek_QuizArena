@@ -1,0 +1,9 @@
+# ezeket nem toltjuk fel a git-be
+
+node_modules/
+.env
+*.log
+
+# az sqlite adatbazist nem toltjuk fel, mert jatek kozben folyamatosan valtozik
+# aki leklonozza, az "npm run seed" paranccsal epiti fel maganak
+db/quizarena.db

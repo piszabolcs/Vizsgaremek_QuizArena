@@ -1,0 +1,144 @@
+/* ez a kozos stiluslap az egesz oldalhoz */
+/* nem tul bonyolult, csak hogy nezzen ki valahogy */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+  color: #222;
+}
+
+/* a felso menu sav */
+.menu {
+  background-color: #1f4e79;
+  padding: 12px 20px;
+  color: white;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  margin-right: 18px;
+  font-weight: bold;
+}
+
+.menu a:hover {
+  text-decoration: underline;
+}
+
+/* a fo tartalom kozepre teve */
+.tartalom {
+  max-width: 800px;
+  margin: 30px auto;
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+h1 {
+  color: #1f4e79;
+}
+
+/* a gombok kinezete */
+button {
+  background-color: #1f4e79;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #2e5e8c;
+}
+
+/* az input mezok */
+input, select {
+  padding: 9px;
+  margin: 6px 0;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+/* egy kviz doboz a listaban */
+.kviz-doboz {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 12px;
+}
+
+.kviz-doboz h3 {
+  margin: 0 0 6px 0;
+}
+
+/* egy kerdes a jatek kozben */
+.kerdes-doboz {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+/* a valasz gombok egymas alatt */
+.valasz-gomb {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background-color: #eef2f7;
+  color: #222;
+  margin: 6px 0;
+  border: 1px solid #cdd8e4;
+}
+
+.valasz-gomb:hover {
+  background-color: #dbe6f2;
+}
+
+/* ha kivalasztottuk a valaszt akkor kiemeljuk */
+.valasz-gomb.kivalasztva {
+  background-color: #1f4e79;
+  color: white;
+}
+
+/* a ranglista tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #1f4e79;
+  color: white;
+}
+
+/* uzenet dobozok */
+.uzenet {
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.uzenet.jo {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.uzenet.rossz {
+  background-color: #f8d7da;
+  color: #721c24;
+}

@@ -1,0 +1,70 @@
+// ezek a tesztek a pontszamito logikat ellenorzik
+// a node beepitett teszt futtatojat hasznaljuk, igy nem kell kulon csomag
+// futtatas: npm test
+
+const test = require("node:test");
+const assert = require("node:assert");
+const scoring = require("../server/utils/scoring");
+
+// TESZT 1: rossz valaszra nulla pont jar
+test("rossz valasz eseten 0 pont", function () {
+  let pont = scoring.pontEgyKerdesre(false, 20, false, 0);
+  assert.strictEqual(pont, 0);
+});
+
+// TESZT 2: jo valaszra a kerdes pontja jar ha nem idore megy
+test("jo valasz eseten a kerdes pontja jar", function () {
+  let pont = scoring.pontEgyKerdesre(true, 20, false, 0);
+  assert.strictEqual(pont, 20);
+});
+
+// TESZT 3: idore menonel a hatralevo ido bonuszt ad
+test("idore menonel ido bonusz jar", function () {
+  // 20 pontos kerdes, jo valasz, 5 masodperc maradt -> 20 + 5 = 25
+  let pont = scoring.pontEgyKerdesre(true, 20, true, 5);
+  assert.strictEqual(pont, 25);
+});
+
+// TESZT 4: az ido bonusz maximum 10 lehet
+test("az ido bonusz maximum 10", function () {
+  // ha 30 masodperc maradt akkor is csak 10 bonusz jar
+  let pont = scoring.pontEgyKerdesre(true, 20, true, 30);
+  assert.strictEqual(pont, 30);
+});
+
+// TESZT 5: egy egesz kviz osszpontja jol adodik ossze
+test("kviz osszpont helyesen adodik ossze", function () {
+  let valaszok = [
+    { helyes: true, pont: 10, idoreMegy: false, ido: 0 },
+    { helyes: true, pont: 20, idoreMegy: false, ido: 0 },
+    { helyes: false, pont: 30, idoreMegy: false, ido: 0 }
+  ];
+  let ossz = scoring.kvizOsszpont(valaszok);
+  assert.strictEqual(ossz, 30); // 10 + 20 + 0
+});
+
+// TESZT 6: az xp az elert pont fele, plusz 50 ha nyert
+test("xp szamitas nyeres eseten", function () {
+  // 100 pont fele az 50, plusz 50 a nyeresert = 100
+  let xp = scoring.xpSzamitas(100, true);
+  assert.strictEqual(xp, 100);
+});
+
+// TESZT 7: az xp az elert pont fele ha nem nyert
+test("xp szamitas veszteseg eseten", function () {
+  // 100 pont fele az 50, nincs bonusz
+  let xp = scoring.xpSzamitas(100, false);
+  assert.strictEqual(xp, 50);
+});
+
+// TESZT 8: a szint jol szamolodik az xp alapjan
+test("szint kiszamitas az xp alapjan", function () {
+  let szintek = [
+    { level_number: 1, xp_required: 0 },
+    { level_number: 2, xp_required: 100 },
+    { level_number: 3, xp_required: 300 }
+  ];
+  // 150 xp eseten a 2. szinten vagyunk (mert 100-at elertuk de 300-at meg nem)
+  let szint = scoring.szintKiszamitas(150, szintek);
+  assert.strictEqual(szint, 2);
+});

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizArena - Belepes</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="menu">
+    <a href="index.html">Fooldal</a>
+    <a href="leaderboard.html">Ranglista</a>
+    <a href="profile.html">Profil</a>
+    <a href="login.html">Belepes</a>
+  </div>
+
+  <div class="tartalom">
+    <h1>Belepes</h1>
+
+    <div id="uzenetHely"></div>
+
+    <!-- bejelentkezes resz -->
+    <h2>Bejelentkezes</h2>
+    <input type="email" id="loginEmail" placeholder="email cim">
+    <input type="password" id="loginJelszo" placeholder="jelszo">
+    <button onclick="bejelentkezes()">Belepek</button>
+
+    <hr style="margin: 30px 0;">
+
+    <!-- regisztracio resz -->
+    <h2>Regisztracio</h2>
+    <input type="text" id="regUsername" placeholder="felhasznalonev">
+    <input type="email" id="regEmail" placeholder="email cim">
+    <input type="password" id="regJelszo" placeholder="jelszo">
+    <button onclick="regisztracio()">Regisztralok</button>
+
+    <hr style="margin: 30px 0;">
+
+    <button onclick="kijelentkezes()">Kijelentkezes</button>
+  </div>
+
+  <script src="js/login.js"></script>
+</body>
+</html>
