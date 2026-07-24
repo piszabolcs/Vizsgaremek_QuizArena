@@ -1,13 +1,11 @@
-// ez a fooldal logikaja
+// ez a jatekok oldal logikaja
 // lekeri a kvizeket a szervertol es kirakja oket a kepernyore
 
-// amikor betolt az oldal, lekerjuk a kvizeket
 window.onload = function () {
   betoltKvizek();
-  megnezKiVanBent();
+  udvozlesKiiras();
 };
 
-// lekerjuk a kvizek listajat az api-tol
 function betoltKvizek() {
   fetch("/api/quizzes")
     .then(function (valasz) {
@@ -17,13 +15,11 @@ function betoltKvizek() {
       let hely = document.getElementById("kvizLista");
       hely.innerHTML = "";
 
-      // ha nincs egy kviz sem
       if (kvizek.length === 0) {
         hely.innerHTML = "<p>Meg nincs egy kviz sem.</p>";
         return;
       }
 
-      // vegigmegyunk a kvizeken es mindegyikbol csinalunk egy dobozt
       for (let i = 0; i < kvizek.length; i++) {
         let k = kvizek[i];
         let doboz = document.createElement("div");
@@ -41,20 +37,17 @@ function betoltKvizek() {
     });
 }
 
-// ha rakattint egy kvizre akkor atmegyunk a jatek oldalra
 function jatszani(kvizId) {
   window.location.href = "quiz.html?id=" + kvizId;
 }
 
-// megnezzuk hogy be van-e valaki jelentkezve es kiirjuk a nevet
-function megnezKiVanBent() {
+function udvozlesKiiras() {
   fetch("/api/users/me")
     .then(function (valasz) {
       if (valasz.status === 200) {
         return valasz.json();
-      } else {
-        return null;
       }
+      return null;
     })
     .then(function (user) {
       if (user) {
