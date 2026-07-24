@@ -68,3 +68,12 @@ test("szint kiszamitas az xp alapjan", function () {
   let szint = scoring.szintKiszamitas(150, szintek);
   assert.strictEqual(szint, 2);
 });
+
+// TESZT 9: a kviz osszpont sose negativ, meg csupa rossz valasz eseten se
+test("a kviz osszpont sose negativ", function () {
+  let valaszok = [
+    { helyes: false, pont: 20, idoreMegy: false, ido: 0 }
+  ];
+  let ossz = scoring.kvizOsszpont(valaszok);
+  assert.strictEqual(ossz, 0);
+});

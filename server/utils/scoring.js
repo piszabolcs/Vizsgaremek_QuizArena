@@ -27,11 +27,15 @@ function pontEgyKerdesre(helyesE, kerdesPont, idoreMegy, hatralevoMasodperc) {
 
 // ez osszeadja egy egesz kviz pontjait
 // a valaszok egy tomb, minden elemben benne van hogy jo volt-e stb
+// a vegeredmeny sose lehet negativ, akkor sem, ha sok buntetes volt
 function kvizOsszpont(valaszok) {
   let osszeg = 0;
   for (let i = 0; i < valaszok.length; i++) {
     let v = valaszok[i];
     osszeg = osszeg + pontEgyKerdesre(v.helyes, v.pont, v.idoreMegy, v.ido);
+  }
+  if (osszeg < 0) {
+    osszeg = 0;
   }
   return osszeg;
 }
