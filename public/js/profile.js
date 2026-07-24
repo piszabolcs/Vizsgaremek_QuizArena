@@ -54,14 +54,19 @@ function betoltEredmenyek() {
         return;
       }
 
-      let html = "<table><tr><th>Kviz</th><th>Pont</th><th>Helyes</th><th>Datum</th></tr>";
+      let html = "<table><tr><th>Kviz</th><th>Pont</th><th>Helyes</th><th>Ido</th><th>Datum</th></tr>";
       for (let i = 0; i < eredmenyek.length; i++) {
         let e = eredmenyek[i];
+        let idoSzoveg = "-";
+        if (e.time_spent) {
+          idoSzoveg = e.time_spent + " mp";
+        }
         html = html +
           "<tr>" +
           "<td>" + e.kviz + "</td>" +
           "<td>" + e.score + "</td>" +
           "<td>" + e.correct_count + "</td>" +
+          "<td>" + idoSzoveg + "</td>" +
           "<td>" + e.played_at + "</td>" +
           "</tr>";
       }
