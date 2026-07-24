@@ -89,6 +89,10 @@ paranccsal ujra fel tudod epiteni (ez torli a regit es ujat csinal):
 npm run seed
 ```
 
+Fontos: ehhez a szervernek allnia kell! Ha kozben fut az `npm start`, akkor a
+Windows nem engedi torolni az adatbazis fajlt es hibat kapsz (EBUSY). Eloszor
+allitsd le a szervert (Ctrl+C), utana futtasd a seed-et, majd inditsd ujra.
+
 ## Tesztek futtatasa
 
 A pontszamito logikahoz vannak automata tesztek. Igy tudod futtatni oket:
