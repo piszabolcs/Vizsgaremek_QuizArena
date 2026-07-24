@@ -13,8 +13,9 @@ function betoltProfil() {
     .then(function (valasz) {
       if (valasz.status === 401) {
         // ha nincs bejelentkezve
+        // (a layout.js amugy is visszairanyit a fooldalra, ez csak biztos ami biztos)
         document.getElementById("profilHely").innerHTML =
-          "<div class='uzenet rossz'>Ehhez be kell jelentkezni. <a href='login.html'>Belepes</a></div>";
+          "<div class='uzenet rossz'>Ehhez be kell jelentkezni. <a href='index.html'>Fooldal</a></div>";
         return null;
       }
       return valasz.json();
