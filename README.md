@@ -7,14 +7,28 @@ lokalisan fut.
 
 ## Mit tud az alkalmazas
 
-- Regisztracio, bejelentkezes es kijelentkezes (session alapon)
+- Regisztracio, bejelentkezes es kijelentkezes (session alapon), felugro ablakban
+- A fooldal egy bemutatkozo oldal, a tobbi resz csak bejelentkezes utan latszik
 - Kerdesbank kategoriakkal es nehezsegi szintekkel (80 kerdes van feltoltve)
 - Kvizek (kerdessorok) listazasa es kitoltese
-- Szerveroldali pontszamitas (nem lehet a frontendrol csalni)
+- Harom jatekmod:
+  - **klasszikus**: egyszerre latszik az osszes kerdes, nincs idokorlat
+  - **idore meno**: egyesevel jonnek a kerdesek, kerdesenkent 20 masodperc,
+    ha lejar akkor automatikusan tovabblep es rossz valasznak szamit
+  - **milliomos**: egyesevel jonnek a kerdesek nehezedo sorrendben, mindegyik
+    idore megy, a rossz valasz azonnal kiesest jelent, es minden 5. helyes
+    valasz utan plusz xp bonusz jar. Harom segitseg hasznalhato egyszer-egyszer:
+    felezes, kozonseg szavazata, kerdes csere
+- Pontozas: a helyes valasz a kerdes pontjat eri (idore meno modban ido bonusszal),
+  a rossz valasz viszont levonassal jar (a kerdes pontjanak fele). A kviz
+  vegeredmenye sose megy 0 ala.
+- A kerdesek es a valaszlehetosegek sorrendje minden kitolteskor keveredik
+- Szerveroldali pontszamitas (nem lehet a frontendrol csalni), es a helyes valasz
+  nem is kerul ki a bongeszobe amig a jatekos nem valaszolt
 - XP- es szintrendszer: minden kviz utan xp jar, es szintet lehet lepni
 - Ranglista az xp alapjan
 - Profil oldal a sajat adatokkal, korabbi eredmenyekkel es sajat kvizekkel
-- Uj kerdes felvitele (host vagy admin joggal)
+- Uj kerdes felvitele (host vagy admin joggal, egyelore csak api-n keresztul)
 
 ## Mihez van szukseg
 
@@ -31,20 +45,27 @@ lokalisan fut.
    npm install
    ```
 
-3. Inditsd el a szervert:
+3. Epitsd fel az adatbazist (ez tolti fel a kerdesekkel es a teszt
+   felhasznalokkal):
+
+   ```
+   npm run seed
+   ```
+
+4. Inditsd el a szervert:
 
    ```
    npm start
    ```
 
-4. Nyisd meg a bongeszot es ird be:
+5. Nyisd meg a bongeszot es ird be:
 
    ```
    http://localhost:3000
    ```
 
-Ennyi! Az adatbazis (db/quizarena.db) mar fel van toltve adatokkal, szoval
-rogton ki tudod probalni.
+Ennyi! Az adatbazis fajl (db/quizarena.db) nincs feltoltve a git-be, mert jatek
+kozben folyamatosan valtozik, ezert kell a 3. lepes.
 
 ## Belepesi adatok a teszthez
 
@@ -87,15 +108,22 @@ quizarena/
 │   ├── middleware/       # a bejelentkezes ellenorzese
 │   └── utils/scoring.js  # a pontszamitas es xp logika
 ├── public/               # a frontend (amit a bongeszo lat)
-│   ├── index.html        # fooldal a kvizekkel
-│   ├── login.html        # belepes es regisztracio
+│   ├── index.html        # fooldal (bemutatkozo oldal belepes/regisztracio gombbal)
+│   ├── games.html        # a valaszthato kvizek listaja
 │   ├── quiz.html         # egy kviz kitoltese
 │   ├── leaderboard.html  # ranglista
 │   ├── profile.html      # profil oldal
+│   ├── logo.png          # a pajzs logo (navbarban)
+│   ├── qalogo_svh.png    # a teljes logo felirattal (fooldalon)
 │   ├── css/style.css     # a stiluslap
 │   └── js/               # a frontend logika oldalankent
+│       ├── layout.js     # a kozos navbar es a belepteto ablak (minden oldalon fut)
+│       ├── games.js      # a kvizlista
+│       ├── quiz.js       # a kviz kitoltese, idozito, milliomos mod
+│       ├── leaderboard.js
+│       └── profile.js
 ├── db/                   # az adatbazis
-│   ├── quizarena.db      # a kesz sqlite adatbazis (mar fel van toltve)
+│   ├── quizarena.db      # a sqlite adatbazis (az "npm run seed" hozza letre)
 │   ├── build_db.js       # ez epiti fel ujra az adatbazist
 │   ├── schema.sql        # a tablak (MySQL valtozat, ha valaki azt hasznalna)
 │   └── seed.sql          # a kezdoadatok (MySQL valtozat)
@@ -111,5 +139,8 @@ quizarena/
   es seed.sql), ha valaki MySQL-lel szeretne futtatni.
 - A jelszavak SHA-256 hash-sel vannak tarolva. Ez vizsgafeladathoz eleg, de eles
   rendszerben bcrypt vagy hasonlo ajanlott.
-- A "Legyen On is milliomos" mod es a csapatos jatek alapjai le vannak rakva az
-  adatbazisban es a backenden, ezek tovabb fejlesztheto reszek.
+- Az idozito es a milliomos mod segitsegei a bongeszoben futnak, a szerver ezeket
+  nem kenyszeriti ki. A vegso pontszamot viszont mindig a szerver szamolja ki az
+  adatbazisbol, szoval a pontszam nem hamisithato.
+- A csapatos jatek alapjai le vannak rakva az adatbazisban (teams, session_players
+  tablak), de ez meg nincs kesz, ez egy tovabb fejlesztheto resz.
