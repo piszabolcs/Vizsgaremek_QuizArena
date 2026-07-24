@@ -1,144 +1,79 @@
-/* ez a kozos stiluslap az egesz oldalhoz */
-/* nem tul bonyolult, csak hogy nezzen ki valahogy */
+/* quizarena stiluslap - sotet, lime-zold temaval, a logohoz igazitva */
+/* nincs framework, tiszta css valtozokkal dolgozunk */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap');
+
+:root {
+  --bg-deep: #0B0F17;
+  --bg-panel: #141B27;
+  --grid-line: #1E2A3D;
+  --lime: #AAFF20;
+  --green: #29A768;
+  --text-primary: #EAF2EC;
+  --text-muted: #8FA3A0;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f2f5;
+  font-family: -apple-system, "Segoe UI", sans-serif;
+  background-color: var(--bg-deep);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
   margin: 0;
   padding: 0;
-  color: #222;
+  color: var(--text-primary);
+  min-height: 100vh;
+  position: relative;
 }
 
-/* a felso menu sav */
-.menu {
-  background-color: #1f4e79;
-  padding: 12px 20px;
-  color: white;
+/* lagy zold glow-folt az oldal tetejen, minden oldalon */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 420px;
+  background: radial-gradient(circle at 50% 0%, rgba(170, 255, 32, 0.12), transparent 65%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-.menu a {
-  color: white;
-  text-decoration: none;
-  margin-right: 18px;
-  font-weight: bold;
+h1, h2, h3,
+.navbar a, .navbar-brand,
+button, .gomb-elsodleges {
+  font-family: "Rajdhani", -apple-system, sans-serif;
+  font-weight: 600;
 }
 
-.menu a:hover {
-  text-decoration: underline;
+h1, h2, h3 {
+  background: linear-gradient(135deg, var(--lime), var(--green));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-top: 0;
 }
 
-/* a fo tartalom kozepre teve */
+a {
+  color: var(--lime);
+}
+
+/* a fo tartalom kozepre teve, a regi vilagos "kartya" helyett most sotet uveg-panel */
 .tartalom {
   max-width: 800px;
-  margin: 30px auto;
-  background-color: white;
+  margin: 100px auto 40px auto;
+  background: rgba(20, 27, 39, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(170, 255, 32, 0.15);
+  border-radius: var(--radius);
   padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-}
-
-h1 {
-  color: #1f4e79;
-}
-
-/* a gombok kinezete */
-button {
-  background-color: #1f4e79;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 15px;
-}
-
-button:hover {
-  background-color: #2e5e8c;
-}
-
-/* az input mezok */
-input, select {
-  padding: 9px;
-  margin: 6px 0;
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 15px;
-}
-
-/* egy kviz doboz a listaban */
-.kviz-doboz {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 15px;
-  margin-bottom: 12px;
-}
-
-.kviz-doboz h3 {
-  margin: 0 0 6px 0;
-}
-
-/* egy kerdes a jatek kozben */
-.kerdes-doboz {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 15px;
-}
-
-/* a valasz gombok egymas alatt */
-.valasz-gomb {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background-color: #eef2f7;
-  color: #222;
-  margin: 6px 0;
-  border: 1px solid #cdd8e4;
-}
-
-.valasz-gomb:hover {
-  background-color: #dbe6f2;
-}
-
-/* ha kivalasztottuk a valaszt akkor kiemeljuk */
-.valasz-gomb.kivalasztva {
-  background-color: #1f4e79;
-  color: white;
-}
-
-/* a ranglista tabla */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-}
-
-th, td {
-  text-align: left;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-th {
-  background-color: #1f4e79;
-  color: white;
-}
-
-/* uzenet dobozok */
-.uzenet {
-  padding: 10px;
-  border-radius: 5px;
-  margin: 10px 0;
-}
-
-.uzenet.jo {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.uzenet.rossz {
-  background-color: #f8d7da;
-  color: #721c24;
+  position: relative;
+  z-index: 1;
 }
