@@ -11,52 +11,48 @@ const router = express.Router();
 
 // EGY KVIZ BEKULDESE / KIERTEKELESE
 // a jatekos kitolti a kvizt a bongeszoben, majd beküldi a valaszait
-// a body-ban: quizId, es egy valaszok tomb
-//   minden valasz: { questionId, valasztottAnswerId, ido (hatralevo mp, ha idore ment) }
+// a body-ban: quizId, valaszok tomb, es elteltMasodperc (mennyi ido telt el a kviz elejetol)
+//   minden valasz: { questionId, valasztottAnswerId, ido (hatralevo mp, ha idore/milliomos modban megy) }
 // a mode-ot a kvizbol olvassuk ki
 router.post("/submit", auth.beKellJelentkezni, function (req, res) {
   const quizId = req.body.quizId;
   const beadottValaszok = req.body.valaszok;
+  const elteltMasodperc = req.body.elteltMasodperc || 0;
 
   if (!quizId || !beadottValaszok) {
     return res.status(400).json({ hiba: "quizId es valaszok kellenek" });
   }
 
-  // lekerjuk a kvizt hogy tudjuk milyen modu
   const kviz = db.prepare("SELECT * FROM quizzes WHERE id = ?").get(quizId);
   if (!kviz) {
     return res.status(404).json({ hiba: "nincs ilyen kviz" });
   }
 
-  // eldontjuk hogy idore ment-e a jatek
   let idoreMegy = false;
   if (kviz.mode === "timed") {
     idoreMegy = true;
   }
 
-  // vegigmegyunk a beadott valaszokon es ellenorizzuk oket az adatbazisbol
-  // ezt azert csinaljuk szerveroldalon hogy ne lehessen csalni
   let ertekeltValaszok = [];
   let helyesDb = 0;
 
   for (let i = 0; i < beadottValaszok.length; i++) {
     let bv = beadottValaszok[i];
 
-    // lekerjuk a kerdest hogy tudjuk hany pontot er
     let kerdes = db.prepare("SELECT * FROM questions WHERE id = ?").get(bv.questionId);
     if (!kerdes) {
-      continue; // ha valamiert nincs ilyen kerdes akkor kihagyjuk
+      continue;
     }
 
-    // megnezzuk hogy a valasztott valasz helyes-e
-    let valasz = db.prepare("SELECT * FROM answers WHERE id = ?").get(bv.valasztottAnswerId);
+    // az "AND question_id = ?" azert kell, nehogy egy masik kerdesrol
+    // "kolcsonzott" helyes valasz-id-t el lehessen fogadtatni
+    let valasz = db.prepare("SELECT * FROM answers WHERE id = ? AND question_id = ?").get(bv.valasztottAnswerId, bv.questionId);
     let helyesE = false;
     if (valasz && valasz.is_correct === 1) {
       helyesE = true;
       helyesDb = helyesDb + 1;
     }
 
-    // elrakjuk a scoring fuggvenynek megfelelo formaban
     ertekeltValaszok.push({
       helyes: helyesE,
       pont: kerdes.points,
@@ -65,28 +61,26 @@ router.post("/submit", auth.beKellJelentkezni, function (req, res) {
     });
   }
 
-  // kiszamoljuk az osszpontot a scoring segedfajllal
   let osszPont = scoring.kvizOsszpont(ertekeltValaszok);
 
-  // eldontjuk hogy nyert-e a jatekos
-  // egyszeru szabaly: ha a kerdesek tobb mint felere jol valaszolt akkor nyert
   let nyertE = false;
   if (helyesDb > beadottValaszok.length / 2) {
     nyertE = true;
   }
 
-  // kiszamoljuk mennyi xp jar
   let kapottXp = scoring.xpSzamitas(osszPont, nyertE);
 
-  // lekerjuk a jatekos jelenlegi adatait
+  // milliomos modban minden 5 helyes valasz utan jar egy plusz xp adag
+  if (kviz.mode === "millionaire") {
+    kapottXp = kapottXp + scoring.merfoldkoBonusz(helyesDb);
+  }
+
   let user = db.prepare("SELECT * FROM users WHERE id = ?").get(req.session.userId);
   let ujXp = user.xp + kapottXp;
 
-  // lekerjuk a szinteket hogy ujra tudjuk szamolni a szintet
   let szintek = db.prepare("SELECT * FROM levels ORDER BY level_number").all();
   let ujSzint = scoring.szintKiszamitas(ujXp, szintek);
 
-  // frissitjuk a jatekost: uj xp, uj szint, jatekok szama, es ha nyert akkor a gyozelmek is
   let ujGyozelem = user.total_wins;
   if (nyertE === true) {
     ujGyozelem = ujGyozelem + 1;
@@ -96,12 +90,10 @@ router.post("/submit", auth.beKellJelentkezni, function (req, res) {
   db.prepare("UPDATE users SET xp = ?, level_id = ?, total_wins = ?, total_games = ? WHERE id = ?")
     .run(ujXp, ujSzint, ujGyozelem, ujJatekok, user.id);
 
-  // elmentjuk az eredmenyt a results tablaba
   db.prepare(
     "INSERT INTO results (user_id, quiz_id, score, correct_count, time_spent) VALUES (?, ?, ?, ?, ?)"
-  ).run(user.id, quizId, osszPont, helyesDb, 0);
+  ).run(user.id, quizId, osszPont, helyesDb, elteltMasodperc);
 
-  // visszakuldjuk az eredmenyt a frontendnek
   res.json({
     uzenet: "kviz kiertekelve",
     osszPont: osszPont,
