@@ -77,3 +77,198 @@ a {
   position: relative;
   z-index: 1;
 }
+
+/* gombok */
+button {
+  background: linear-gradient(135deg, var(--lime), var(--green));
+  color: #08110B;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform 0.1s ease, opacity 0.15s ease;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  background: var(--bg-panel);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* input mezok */
+input, select {
+  padding: 10px;
+  margin: 6px 0;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--grid-line);
+  border-radius: var(--radius);
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--lime);
+}
+
+/* kviz-doboz es kerdes-doboz kartyak */
+.kviz-doboz, .kerdes-doboz {
+  border: 1px solid var(--grid-line);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.kviz-doboz h3, .kerdes-doboz h3 {
+  margin: 0 0 8px 0;
+  -webkit-text-fill-color: var(--text-primary);
+  color: var(--text-primary);
+  background: none;
+}
+
+/* valasz gombok - itt nem kell a lime-zold gradiens, mert tul sok lenne */
+.valasz-gomb {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  margin: 6px 0;
+  border: 1px solid var(--grid-line);
+  font-weight: 400;
+}
+
+.valasz-gomb:hover {
+  border-color: var(--lime);
+  background: rgba(170, 255, 32, 0.08);
+}
+
+.valasz-gomb.kivalasztva {
+  background: linear-gradient(135deg, var(--lime), var(--green));
+  color: #08110B;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* tablazatok (ranglista, korabbi eredmenyek) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid var(--grid-line);
+}
+
+th {
+  color: var(--lime);
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 600;
+}
+
+/* uzenet dobozok */
+.uzenet {
+  padding: 12px;
+  border-radius: var(--radius);
+  margin: 10px 0;
+  border: 1px solid transparent;
+}
+
+.uzenet.jo {
+  background: rgba(41, 167, 104, 0.15);
+  border-color: var(--green);
+  color: #B7F0D2;
+}
+
+.uzenet.rossz {
+  background: rgba(226, 75, 74, 0.15);
+  border-color: #E24B4A;
+  color: #F5C1C1;
+}
+
+/* idozito kijelzo (idore meno es milliomos modnal) */
+.idozito {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--lime);
+  margin-bottom: 10px;
+}
+
+.halado-jelzo {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.segitseg-sav {
+  display: flex;
+  gap: 10px;
+  margin: 14px 0;
+  flex-wrap: wrap;
+}
+
+.kozonseg-sav p {
+  margin: 4px 0;
+  color: var(--text-muted);
+}
+
+/* modal (dialog elem) */
+dialog {
+  border: 1px solid rgba(170, 255, 32, 0.25);
+  border-radius: var(--radius);
+  background: rgba(20, 27, 39, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--text-primary);
+  padding: 25px;
+  width: min(400px, 90vw);
+}
+
+dialog::backdrop {
+  background: rgba(11, 15, 23, 0.75);
+}
+
+.modal-valto {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.modal-valto button {
+  flex: 1;
+  background: var(--bg-panel);
+  color: var(--text-muted);
+}
+
+.modal-valto button.aktiv {
+  background: linear-gradient(135deg, var(--lime), var(--green));
+  color: #08110B;
+}
+
+.modal-bezar {
+  background: none;
+  color: var(--text-muted);
+  padding: 4px 10px;
+  float: right;
+}
