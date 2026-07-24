@@ -67,9 +67,16 @@ function szintKiszamitas(osszesXp, szintek) {
   return aktualisSzint;
 }
 
+// milliomos modban minden teljesitett 5-os blokk utan jar egy plusz xp adag
+function merfoldkoBonusz(helyesDb) {
+  let blokkok = Math.floor(helyesDb / 5);
+  return blokkok * 75;
+}
+
 module.exports = {
   pontEgyKerdesre: pontEgyKerdesre,
   kvizOsszpont: kvizOsszpont,
   xpSzamitas: xpSzamitas,
-  szintKiszamitas: szintKiszamitas
+  szintKiszamitas: szintKiszamitas,
+  merfoldkoBonusz: merfoldkoBonusz
 };

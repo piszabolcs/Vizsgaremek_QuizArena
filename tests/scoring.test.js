@@ -77,3 +77,11 @@ test("a kviz osszpont sose negativ", function () {
   let ossz = scoring.kvizOsszpont(valaszok);
   assert.strictEqual(ossz, 0);
 });
+
+// TESZT 10: minden 5 helyes valasz utan +75 xp jar (milliomos mod)
+test("merfoldko bonusz minden 5 helyes valasz utan", function () {
+  assert.strictEqual(scoring.merfoldkoBonusz(4), 0);
+  assert.strictEqual(scoring.merfoldkoBonusz(5), 75);
+  assert.strictEqual(scoring.merfoldkoBonusz(9), 75);
+  assert.strictEqual(scoring.merfoldkoBonusz(10), 150);
+});
