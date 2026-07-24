@@ -3,29 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuizArena - Fooldal</title>
+  <title>QuizArena</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body data-vedett="nem">
 
-  <!-- felso menu, ez minden oldalon ugyanaz -->
-  <div class="menu">
-    <a href="index.html">Fooldal</a>
-    <a href="leaderboard.html">Ranglista</a>
-    <a href="profile.html">Profil</a>
-    <a href="login.html">Belepes</a>
+  <div class="hero">
+    <div class="hero-racs"></div>
+    <img src="/qalogo_svh.png" alt="QuizArena logó">
+    <p>Kérdésbank, kvízek, XP-rendszer és ranglista. Tölts ki egy kvízt egyedül,
+      időre, vagy próbáld ki a "Legyen Ön is milliomos" módot segítségekkel.</p>
+    <div class="hero-gombok">
+      <button onclick="modalMegnyitas('register')">Regisztrálok</button>
+      <button class="masodlagos" onclick="modalMegnyitas('login')">Belépek</button>
+    </div>
   </div>
 
-  <div class="tartalom">
-    <h1>QuizArena</h1>
-    <p>Valassz egy kvizt es probald ki a tudasod! Gyujts xp-t es lepj szintet.</p>
-
-    <div id="udvozles"></div>
-
-    <h2>Elerheto kvizek</h2>
-    <div id="kvizLista">toltes...</div>
-  </div>
-
-  <script src="js/main.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    // ha mar be vagyunk jelentkezve, a hero helyett irany a jatekok oldal
+    fetch("/api/users/me").then(function (v) {
+      if (v.status === 200) {
+        window.location.href = "games.html";
+      }
+    });
+  </script>
 </body>
 </html>
