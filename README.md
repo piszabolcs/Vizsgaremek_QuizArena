@@ -1,150 +1,158 @@
+<div align="center">
+
+<img src="docs/screenshots/hero.png" alt="QuizArena főoldal" width="720">
+
 # QuizArena
 
-Online kviz- es vetelkedo platform. Ez egy vizsgafeladat webalkalmazas, amit
-Node.js + Express backenddel es egyszeru HTML/CSS/JavaScript frontenddel keszult.
-Az adatbazis SQLite, igy nem kell kulon adatbazis szervert telepiteni, minden
-lokalisan fut.
+**Kvízplatform XP-rendszerrel, ranglistával és három különböző játékmóddal**
 
-## Mit tud az alkalmazas
+</div>
 
-- Regisztracio, bejelentkezes es kijelentkezes (session alapon), felugro ablakban
-- A fooldal egy bemutatkozo oldal, a tobbi resz csak bejelentkezes utan latszik
-- Kerdesbank kategoriakkal es nehezsegi szintekkel (80 kerdes van feltoltve)
-- Kvizek (kerdessorok) listazasa es kitoltese
-- Harom jatekmod:
-  - **klasszikus**: egyszerre latszik az osszes kerdes, nincs idokorlat
-  - **idore meno**: egyesevel jonnek a kerdesek, kerdesenkent 20 masodperc,
-    ha lejar akkor automatikusan tovabblep es rossz valasznak szamit
-  - **milliomos**: egyesevel jonnek a kerdesek nehezedo sorrendben, mindegyik
-    idore megy, a rossz valasz azonnal kiesest jelent, es minden 5. helyes
-    valasz utan plusz xp bonusz jar. Harom segitseg hasznalhato egyszer-egyszer:
-    felezes, kozonseg szavazata, kerdes csere
-- Pontozas: a helyes valasz a kerdes pontjat eri (idore meno modban ido bonusszal),
-  a rossz valasz viszont levonassal jar (a kerdes pontjanak fele). A kviz
-  vegeredmenye sose megy 0 ala.
-- A kerdesek es a valaszlehetosegek sorrendje minden kitolteskor keveredik
-- Szerveroldali pontszamitas (nem lehet a frontendrol csalni), es a helyes valasz
-  nem is kerul ki a bongeszobe amig a jatekos nem valaszolt
-- XP- es szintrendszer: minden kviz utan xp jar, es szintet lehet lepni
-- Ranglista az xp alapjan
-- Profil oldal a sajat adatokkal, korabbi eredmenyekkel es sajat kvizekkel
-- Uj kerdes felvitele (host vagy admin joggal, egyelore csak api-n keresztul)
+---
 
-## Mihez van szukseg
+## Miről szól ez a projekt
 
-- Node.js (ajanlott a 18-as vagy ujabb verzio)
-- npm (ez a Node.js-szel egyutt jon)
+A QuizArena egy böngészőben futó kvíz- és vetélkedő-alkalmazás: a felhasználók
+regisztrálnak, kvízeket töltenek ki, XP-t gyűjtenek, szintet lépnek, és
+versenyeznek egymással a ranglistán. A cél az volt, hogy egy egyszerű
+kvízjáték köré egy tényleg jól használható, modern felületet és egy
+becsületesen szerveroldalon számolt, csalásbiztos pontrendszert építsünk.
 
-## Telepites es inditas
+A backend Node.js + Express + SQLite, a frontend natív HTML/CSS/JavaScript,
+build-lépés és frontend framework nélkül.
 
-1. Nyisd meg a terminalt a projekt mappajaban (ott ahol ez a README van).
+## Képernyőképek
 
-2. Telepitsd a fuggosegeket:
+<table>
+<tr>
+<td width="50%">
+<img src="docs/screenshots/belepes-modal.png" alt="Belépés/regisztráció ablak">
+<p align="center"><sub>Belépés és regisztráció egy felugró ablakban</sub></p>
+</td>
+<td width="50%">
+<img src="docs/screenshots/jatekok.png" alt="Elérhető kvízek listája">
+<p align="center"><sub>Bejelentkezés után elérhető kvízek</sub></p>
+</td>
+</tr>
+<tr>
+<td width="50%">
+<img src="docs/screenshots/milliomos-mod.png" alt="Legyen Ön is milliomos mód">
+<p align="center"><sub>"Legyen Ön is milliomos" mód: időzítővel és segítségekkel</sub></p>
+</td>
+<td width="50%">
+<img src="docs/screenshots/ranglista.png" alt="Ranglista">
+<p align="center"><sub>Ranglista a legjobb játékosokkal</sub></p>
+</td>
+</tr>
+</table>
 
-   ```
-   npm install
-   ```
+<div align="center">
+<img src="docs/screenshots/mobil-nezet.png" alt="Mobil nézet" width="280">
+<p><sub>A felület mobilon is használható</sub></p>
+</div>
 
-3. Epitsd fel az adatbazist (ez tolti fel a kerdesekkel es a teszt
-   felhasznalokkal):
+## Funkciók
 
-   ```
-   npm run seed
-   ```
+**Fiókkezelés**
+- Regisztráció, bejelentkezés, kijelentkezés egy felugró ablakban, oldalváltás nélkül
+- A főoldal egy bemutatkozó (hero) felület; a kvízek, a ranglista és a profil
+  csak bejelentkezve érhető el
 
-4. Inditsd el a szervert:
+**Három játékmód**
 
-   ```
-   npm start
-   ```
+| Mód | Hogyan működik |
+|---|---|
+| Klasszikus | Az összes kérdés egyszerre látszik, nincs időnyomás |
+| Időre menő | A kérdések egyesével jönnek, 20 másodperc jár mindegyikre; ha lejár az idő, a rendszer automatikusan továbblép, és az adott kérdés rossz válasznak számít |
+| Legyen Ön is milliomos | Egyesével, nehezedő sorrendben jönnek a kérdések, mindegyik időre megy. Egy rossz válasz azonnal véget vet a játéknak, viszont minden 5. helyes válasz után külön XP-bónusz jár. Háromféle segítség vethető be egyszer-egyszer: **felezés**, **közönség szavazata** és **kérdéscsere** |
 
-5. Nyisd meg a bongeszot es ird be:
+**Pontozás és haladás**
+- Helyes válasz a kérdés pontját éri (időre menő módban idő-bónusszal is), rossz
+  válasz viszont pontlevonással jár — a végeredmény ettől függetlenül sosem
+  megy 0 alá
+- A pontszámítás és a helyes válasz ellenőrzése kizárólag szerveroldalon
+  történik; a böngésző a kérdés kitöltése előtt sosem kapja meg, melyik a
+  helyes válasz
+- A kérdések és a válaszlehetőségek sorrendje minden kitöltéskor újrakeveredik
+- XP- és szintrendszer, valamint egy XP alapú ranglista
+- Profil oldal a saját statisztikákkal és a korábbi eredményekkel (pontszám,
+  helyes válaszok, ráfordított idő)
 
-   ```
-   http://localhost:3000
-   ```
+## Technológiák
 
-Ennyi! Az adatbazis fajl (db/quizarena.db) nincs feltoltve a git-be, mert jatek
-kozben folyamatosan valtozik, ezert kell a 3. lepes.
+- **Backend:** Node.js, Express, better-sqlite3
+- **Adatbázis:** SQLite
+- **Frontend:** natív HTML, CSS és JavaScript (framework és build-lépés nélkül)
+- **Tesztelés:** Node.js beépített `node:test` futtatója
 
-## Belepesi adatok a teszthez
+## Gyors indítás
 
-Az adatbazisban van nehany kesz felhasznalo. A jelszavak egyszeruek, mert ez
-csak egy vizsgafeladat (eles hasznalatra bcrypt-et kellene hasznalni):
-
-| Email                  | Jelszo    | Szerep  |
-|------------------------|-----------|---------|
-| admin@quizarena.hu     | admin123  | admin   |
-| host@quizarena.hu      | host123   | host    |
-| anna@example.com       | jelszo1   | player  |
-| bela@example.com       | jelszo2   | player  |
-| cili@example.com       | jelszo3   | player  |
-
-## Az adatbazis ujraepitese
-
-Ha valamiert elrontanad az adatbazist, vagy tisztarol akarnal indulni, ezzel a
-paranccsal ujra fel tudod epiteni (ez torli a regit es ujat csinal):
-
-```
+```bash
+npm install
 npm run seed
+npm start
 ```
 
-Fontos: ehhez a szervernek allnia kell! Ha kozben fut az `npm start`, akkor a
-Windows nem engedi torolni az adatbazis fajlt es hibat kapsz (EBUSY). Eloszor
-allitsd le a szervert (Ctrl+C), utana futtasd a seed-et, majd inditsd ujra.
+Ezután nyisd meg a `http://localhost:3000` címet böngészőben.
 
-## Tesztek futtatasa
+> Az adatbázis-fájl nincs a repóban (mert játék közben folyamatosan
+> változna), ezért kell előtte az `npm run seed` — ez felépíti és feltölti
+> kérdésekkel, kvízekkel és néhány teszt-felhasználóval.
+>
+> Az `npm run seed` csak akkor fut le, ha a szerver éppen nem fut (a
+> Windows zárolja a fájlt futás közben) — előbb állítsd le `Ctrl+C`-vel,
+> utána futtasd a seedet, majd indítsd újra a szervert.
 
-A pontszamito logikahoz vannak automata tesztek. Igy tudod futtatni oket:
+### Teszt fiókok
 
-```
+| Email | Jelszó | Szerepkör |
+|---|---|---|
+| admin@quizarena.hu | admin123 | admin |
+| host@quizarena.hu | host123 | host |
+| anna@example.com | jelszo1 | player |
+| bela@example.com | jelszo2 | player |
+| cili@example.com | jelszo3 | player |
+
+### Automata tesztek
+
+```bash
 npm test
 ```
 
-## Mappa szerkezet
+A `server/utils/scoring.js` pontszámító és XP-logikáját fedik le egységtesztek.
+
+## Projekt szerkezete
 
 ```
 quizarena/
-├── server/               # a backend (Node.js + Express)
-│   ├── app.js            # a fofajl, ez inditja a szervert
-│   ├── config/db.js      # az adatbazis kapcsolat
-│   ├── routes/           # az api utvonalak (auth, kerdesek, kvizek, jatek, ranglista, user)
-│   ├── middleware/       # a bejelentkezes ellenorzese
-│   └── utils/scoring.js  # a pontszamitas es xp logika
-├── public/               # a frontend (amit a bongeszo lat)
-│   ├── index.html        # fooldal (bemutatkozo oldal belepes/regisztracio gombbal)
-│   ├── games.html        # a valaszthato kvizek listaja
-│   ├── quiz.html         # egy kviz kitoltese
-│   ├── leaderboard.html  # ranglista
-│   ├── profile.html      # profil oldal
-│   ├── logo.png          # a pajzs logo (navbarban)
-│   ├── qalogo_svh.png    # a teljes logo felirattal (fooldalon)
-│   ├── css/style.css     # a stiluslap
-│   └── js/               # a frontend logika oldalankent
-│       ├── layout.js     # a kozos navbar es a belepteto ablak (minden oldalon fut)
-│       ├── games.js      # a kvizlista
-│       ├── quiz.js       # a kviz kitoltese, idozito, milliomos mod
+├── server/                 # backend (Node.js + Express)
+│   ├── app.js               # a szervert indító fájl
+│   ├── config/db.js         # adatbázis-kapcsolat
+│   ├── routes/               # API végpontok (auth, kérdések, kvízek, játék, ranglista, felhasználók)
+│   ├── middleware/           # bejelentkezés-ellenőrzés
+│   └── utils/scoring.js      # pontszámítás és XP-logika
+├── public/                 # frontend
+│   ├── index.html            # főoldal / hero
+│   ├── games.html            # kvízlista
+│   ├── quiz.html             # egy kvíz kitöltése
+│   ├── leaderboard.html      # ranglista
+│   ├── profile.html          # profil
+│   ├── css/style.css         # stíluslap
+│   └── js/
+│       ├── layout.js         # közös navigáció és a belépő ablak
+│       ├── games.js          # kvízlista logika
+│       ├── quiz.js           # kvíz kitöltése, időzítő, milliomos mód
 │       ├── leaderboard.js
 │       └── profile.js
-├── db/                   # az adatbazis
-│   ├── quizarena.db      # a sqlite adatbazis (az "npm run seed" hozza letre)
-│   ├── build_db.js       # ez epiti fel ujra az adatbazist
-│   ├── schema.sql        # a tablak (MySQL valtozat, ha valaki azt hasznalna)
-│   └── seed.sql          # a kezdoadatok (MySQL valtozat)
-├── tests/                # az automata tesztek
-├── .env.example          # pelda kornyezeti valtozok
-├── package.json          # a projekt fuggosegei es parancsai
-└── README.md             # ez a fajl
+├── db/                      # adatbázis-séma és feltöltő szkript
+├── tests/                   # automata tesztek
+└── docs/                    # tervdokumentumok, képernyőképek
 ```
 
-## Megjegyzesek
+## Háttér
 
-- Az adatbazis SQLite, de a db mappaban ott van a MySQL valtozat is (schema.sql
-  es seed.sql), ha valaki MySQL-lel szeretne futtatni.
-- A jelszavak SHA-256 hash-sel vannak tarolva. Ez vizsgafeladathoz eleg, de eles
-  rendszerben bcrypt vagy hasonlo ajanlott.
-- Az idozito es a milliomos mod segitsegei a bongeszoben futnak, a szerver ezeket
-  nem kenyszeriti ki. A vegso pontszamot viszont mindig a szerver szamolja ki az
-  adatbazisbol, szoval a pontszam nem hamisithato.
-- A csapatos jatek alapjai le vannak rakva az adatbazisban (teams, session_players
-  tablak), de ez meg nincs kesz, ez egy tovabb fejlesztheto resz.
+Ez a projekt a Programfejlesztő és tesztelő felnőttképzés vizsgaremekeként
+készült, egy csapattárssal közösen. Emiatt néhány döntés tudatosan az
+egyszerűség felé billen a "production-ready" megoldások helyett — például a
+jelszavak SHA-256 hasheléssel vannak tárolva bcrypt helyett, és a csapatos
+játékmód alapjai megvannak az adatbázisban, de a funkció még nincs kész.
