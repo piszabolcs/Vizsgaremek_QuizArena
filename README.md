@@ -146,7 +146,7 @@ quizarena/
 │       └── profile.js
 ├── db/                      # adatbázis-séma és feltöltő szkript
 ├── tests/                   # automata tesztek
-└── docs/                    # tervdokumentumok, képernyőképek
+└── docs/screenshots/        # a fenti képernyőképek
 ```
 
 ## Háttér
