@@ -1,9 +1,9 @@
-# ezeket nem toltjuk fel a git-be
+# root szintu, a teljes vizsgaremek csomagra vonatkozo szabalyok
+# (a forraskod/ mappanak van sajat, reszletesebb .gitignore-ja)
 
-node_modules/
-.env
+Thumbs.db
+.DS_Store
 *.log
 
-# az sqlite adatbazist nem toltjuk fel, mert jatek kozben folyamatosan valtozik
-# aki leklonozza, az "npm run seed" paranccsal epiti fel maganak
-db/quizarena.db
+# a hordozhato valtozat is felepiti a sajat adatbazisat elso inditaskor
+telepito_portable/app/db/quizarena.db

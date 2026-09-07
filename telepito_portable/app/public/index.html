@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizArena</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-vedett="nem">
+
+  <div class="hero">
+    <div class="hero-racs"></div>
+    <img src="/qalogo_svh.png" alt="QuizArena logó">
+    <p>Kérdésbank, kvízek, XP-rendszer és ranglista. Tölts ki egy kvízt egyedül,
+      időre, vagy próbáld ki a "Legyen Ön is milliomos" módot segítségekkel.</p>
+    <div class="hero-gombok">
+      <button onclick="modalMegnyitas('register')">Regisztrálok</button>
+      <button class="masodlagos" onclick="modalMegnyitas('login')">Belépek</button>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script>
+    // ha mar be vagyunk jelentkezve, a hero helyett irany a jatekok oldal
+    fetch("/api/users/me").then(function (v) {
+      if (v.status === 200) {
+        window.location.href = "games.html";
+      }
+    });
+  </script>
+</body>
+</html>
